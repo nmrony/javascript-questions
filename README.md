@@ -1,5 +1,5 @@
 <div align="center">
-  <img height="60" src="https://img.icons8.com/color/344/javascript.png"> 
+  <img height="60" src="https://img.icons8.com/color/344/javascript.png">
   <h1>JavaScript Questions</h1>
 
 ---
@@ -17,28 +17,27 @@ Feel free to reach out to me! 😊 <br />
 
 ---
 
-<details><summary><b> See 17 Available Translations 🇪🇸🇮🇹🇩🇪 🇫🇷🇷🇺🇨🇳🇵🇹</b></summary>
+<details><summary><b> See 18 Available Translations 🇸🇦🇪🇬🇧🇦🇩🇪🇪🇸🇫🇷🇮🇩🇯🇵🇰🇷🇳🇱🇧🇷🇷🇺🇹🇭🇹🇷🇺🇦🇻🇳🇨🇳🇹🇼</b></summary>
 <p>
 
-* [English](./en-EN/README.md)
-* [العربية](./ar-AR/README_AR.md)
-* [اللغة العامية - Egyptian Arabic](./ar-EG/README_ar-EG.md)
-* [Bosanski](./bs-BS/README-bs_BS.md)  
-* [Deutsch](./de-DE/README.md)  
-* [Español](./es-ES/README-ES.md)
-* [Français](./fr-FR/README_fr-FR.md)
-* [日本語](./ja-JA/README-ja_JA.md)  
-* [한국어](./ko-KR/README-ko_KR.md)
-* [Nederlands](./nl-NL/README.md)
-* [Português Brasil](./pt-BR/README_pt_BR.md)  
-* [Русский](./ru-RU/README.md)
-* [Українська мова](./ua-UA/README-ua_UA.md)  
-* [Tiếng Việt](./vi-VI/README-vi.md)
-* [简体中文](./zh-CN/README-zh_CN.md)
-* [繁體中文](./zh-TW/README_zh-TW.md)
-* [Türkçe](./tr-TR/README-tr_TR.md)
-* [ไทย](./th-TH/README-th_TH.md)
-* [Indonesia](./id-ID/README.md)
+- [🇸🇦 العربية](./ar-AR/README_AR.md)
+- [🇪🇬 اللغة العامية](./ar-EG/README_ar-EG.md)
+- [🇧🇦 Bosanski](./bs-BS/README-bs_BS.md)
+- [🇩🇪 Deutsch](./de-DE/README.md)
+- [🇪🇸 Español](./es-ES/README-ES.md)
+- [🇫🇷 Français](./fr-FR/README_fr-FR.md)
+- [🇮🇩 Indonesia](./id-ID/README.md)
+- [🇯🇵 日本語](./ja-JA/README-ja_JA.md)
+- [🇰🇷 한국어](./ko-KR/README-ko_KR.md)
+- [🇳🇱 Nederlands](./nl-NL/README.md)
+- [🇧🇷 Português Brasil](./pt-BR/README_pt_BR.md)
+- [🇷🇺 Русский](./ru-RU/README.md)
+- [🇹🇭 ไทย](./th-TH/README-th_TH.md)
+- [🇹🇷 Türkçe](./tr-TR/README-tr_TR.md)
+- [🇺🇦 Українська мова](./uk-UA/README.md)
+- [🇻🇳 Tiếng Việt](./vi-VI/README-vi.md)
+- [🇨🇳 简体中文](./zh-CN/README-zh_CN.md)
+- [🇹🇼 繁體中文](./zh-TW/README_zh-TW.md)
 
 </p>
 </details>
@@ -3331,7 +3330,7 @@ Promise.resolve(5);
 
 - A: `5`
 - B: `Promise {<pending>: 5}`
-- C: `Promise {<resolved>: 5}`
+- C: `Promise {<fulfilled>: 5}`
 - D: `Error`
 
 <details><summary><b>Answer</b></summary>
@@ -3339,7 +3338,7 @@ Promise.resolve(5);
 
 #### Answer: C
 
-We can pass any type of value we want to `Promise.resolve`, either a promise or a non-promise. The method itself returns a promise with the resolved value. If you pass a regular function, it'll be a resolved promise with a regular value. If you pass a promise, it'll be a resolved promise with the resolved value of that passed promise.
+We can pass any type of value we want to `Promise.resolve`, either a promise or a non-promise. The method itself returns a promise with the resolved value (`<fulfilled>`). If you pass a regular function, it'll be a resolved promise with a regular value. If you pass a promise, it'll be a resolved promise with the resolved value of that passed promise.
 
 In this case, we just passed the numerical value `5`. It returns a resolved promise with the value `5`.
 
@@ -3686,7 +3685,11 @@ config = null;
 
 #### Answer: C
 
-Normally when we set objects equal to `null`, those objects get _garbage collected_ as there is no reference anymore to that object. However, since the callback function within `setInterval` is an arrow function (thus bound to the `config` object), the callback function still holds a reference to the `config` object. As long as there is a reference, the object won't get garbage collected. Since it's not garbage collected, the `setInterval` callback function will still get invoked every 1000ms (1s).
+Normally when we set objects equal to `null`, those objects get _garbage collected_ as there is no reference anymore to that object. However, since the callback function within `setInterval` is an arrow function (thus bound to the `config` object), the callback function still holds a reference to the `config` object. 
+As long as there is a reference, the object won't get garbage collected. 
+Since this is an interval, setting `config` to `null` or `delete`-ing `config.alert` won't garbage-collect the interval, so the interval will still be called. 
+It should be cleared with `clearInterval(config.alert)` to remove it from memory.
+Since it was not cleared, the `setInterval` callback function will still get invoked every 1000ms (1s).
 
 </p>
 </details>
@@ -4006,7 +4009,7 @@ async function* range(start, end) {
 
 #### Answer: C
 
-The generator function `range` returns an async object with promises for each item in the range we pass: `Promise{1}`, `Promise{2}`, `Promise{3}`. We set the variable `gen` equal to the async object, after which we loop over it using a `for await ... of` loop. We set the variable `item` equal to the returned Promise values: first `Promise{1}`, then `Promise{2}`, then `Promise{3}`. Since we're _awaiting_ the value of `item`, the resolved promsie, the resolved _values_ of the promises get returned: `1`, `2`, then `3`.
+The generator function `range` returns an async object with promises for each item in the range we pass: `Promise{1}`, `Promise{2}`, `Promise{3}`. We set the variable `gen` equal to the async object, after which we loop over it using a `for await ... of` loop. We set the variable `item` equal to the returned Promise values: first `Promise{1}`, then `Promise{2}`, then `Promise{3}`. Since we're _awaiting_ the value of `item`, the resolved promise, the resolved _values_ of the promises get returned: `1`, `2`, then `3`.
 
 </p>
 </details>
@@ -4070,7 +4073,7 @@ console.log(getFine(130, 300))
 
 #### Answer: B
 
-With the `Intl.NumberFormat` method, we can format numeric values to any locale. We format the numeric value `130` to the `en-US` locale as a `unit` in `mile-per-hour`, which results in `130 mph`. The numeric value `300` to the `en-US` locale as a `currentcy` in `USD` results in `$300.00`.
+With the `Intl.NumberFormat` method, we can format numeric values to any locale. We format the numeric value `130` to the `en-US` locale as a `unit` in `mile-per-hour`, which results in `130 mph`. The numeric value `300` to the `en-US` locale as a `currency` in `USD` results in `$300.00`.
 
 </p>
 </details>
@@ -4278,14 +4281,14 @@ const myPromise = Promise.resolve(Promise.resolve('Promise!'));
 
 function funcOne() {
   myPromise.then(res => res).then(res => console.log(res));
-  setTimeout(() => console.log('Timeout!', 0));
+  setTimeout(() => console.log('Timeout!'), 0);
   console.log('Last line!');
 }
 
 async function funcTwo() {
   const res = await myPromise;
   console.log(await res);
-  setTimeout(() => console.log('Timeout!', 0));
+  setTimeout(() => console.log('Timeout!'), 0);
   console.log('Last line!');
 }
 
@@ -4303,7 +4306,7 @@ funcTwo();
 
 #### Answer: D
 
-First, we invoke `funcOne`. On the first line of `funcOne`, we call the `myPromise` promise, which is an _asynchronous_ operation. While the engine is busy completing the promise, it keeps on running the function `funcOne`. The next line is the _asynchronous_ `setTimeout` function, from which the callback is sent to the Web API. (see my article on the event loop here.)
+First, we invoke `funcOne`. On the first line of `funcOne`, we call the `myPromise` promise, which is an _asynchronous_ operation. While the engine is busy completing the promise, it keeps on running the function `funcOne`. The next line is the _asynchronous_ `setTimeout` function, from which the callback is sent to the Web API. (see my article on the event loop <a href="https://dev.to/lydiahallie/javascript-visualized-event-loop-3dif">here</a>.)
 
 Both the promise and the timeout are asynchronous operations, the function keeps on running while it's busy completing the promise and handling the `setTimeout` callback. This means that `Last line!` gets logged first, since this is not an asynchonous operation. This is the last line of `funcOne`, the promise resolved, and `Promise!` gets logged. However, since we're invoking `funcTwo()`, the call stack isn't empty, and the callback of the `setTimeout` function cannot get added to the callstack yet.
 
@@ -4318,7 +4321,7 @@ We get to the last line of `funcTwo`, which logs `Last line!` to the console. No
 
 ---
 
-###### 134. How can we invoke `sum` in `index.js` from `sum.js?`
+###### 134. How can we invoke `sum` in `sum.js` from `index.js?`
 
 ```javascript
 // sum.js
@@ -4400,7 +4403,7 @@ person.name;
 
 #### Answer: C
 
-With a Proxy object, we can add custom behavior to an object that we pass to it as the second argument. In this case, we pass the `handler` object which contained to properties: `set` and `get`. `set` gets invoked whenever we _set_ property values, `get` gets invoked whenever we _get_ (access) property values.
+With a Proxy object, we can add custom behavior to an object that we pass to it as the second argument. In this case, we pass the `handler` object which contained two properties: `set` and `get`. `set` gets invoked whenever we _set_ property values, `get` gets invoked whenever we _get_ (access) property values.
 
 The first argument is an empty object `{}`, which is the value of `person`. To this object, the custom behavior specified in the `handler` object gets added. If we add a property to the `person` object, `set` will get invoked. If we access a property on the `person` object, `get` gets invoked.
 
@@ -4622,7 +4625,7 @@ First, we invoke the `addHobby` function, and pass `"running"` as the value for 
 
 Then, we invoke the `addHobby` function, and pass `"dancing"` as the value for `hobby`. We didn't pass a value for `hobbies`, so it gets the default value, the `hobbies` property on the `person` object. We push the hobby `dancing` to the `person.hobbies` array.
 
-Last, we invoke the `addHobby` function, and pass `"bdaking"` as the value for `hobby`, and the `person.hobbies` array as the value for `hobbies`. We push the hobby `baking` to the `person.hobbies` array.
+Last, we invoke the `addHobby` function, and pass `"baking"` as the value for `hobby`, and the `person.hobbies` array as the value for `hobbies`. We push the hobby `baking` to the `person.hobbies` array.
 
 After pushing `dancing` and `baking`, the value of `person.hobbies` is `["coding", "dancing", "baking"]`
 
@@ -4993,7 +4996,7 @@ runPromises()
 
 #### Answer: D
 
-The `Promise.all` method runs the passed promises in parallel. If one promise fails, the `Promise.all` method _rejects) with the value of the rejected promise. In this case, `promise3` rejected with the value `"Third"`. We’re catching the rejected value in the chained `catch` method on the `runPromises` invocation to catch any errors  within the `runPromises` function. Only `"Third"` gets logged, since `promise3` rejected with this value.
+The `Promise.all` method runs the passed promises in parallel. If one promise fails, the `Promise.all` method _rejects_ with the value of the rejected promise. In this case, `promise3` rejected with the value `"Third"`. We’re catching the rejected value in the chained `catch` method on the `runPromises` invocation to catch any errors  within the `runPromises` function. Only `"Third"` gets logged, since `promise3` rejected with this value.
 
 </p>
 </details>
